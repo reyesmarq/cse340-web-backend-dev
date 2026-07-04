@@ -32,8 +32,10 @@ app.get('/projects', (_, res) => {
   });
 });
 
-app.get('/', (_, res) => {
-  res.send('Hello');
+app.get('/categories', (_, res) => {
+  res.render('categories', {
+    title: 'Categories',
+  });
 });
 
 app.listen(PORT, () => {
