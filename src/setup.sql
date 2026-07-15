@@ -1,5 +1,9 @@
 -- CSE 340 Week 02: Database Tables and Sample Data
+DROP TABLE IF EXISTS project_category;
+
 DROP TABLE IF EXISTS project;
+
+DROP TABLE IF EXISTS category;
 
 DROP TABLE IF EXISTS organization;
 
@@ -166,3 +170,61 @@ SELECT
   *
 FROM
   project;
+
+CREATE TABLE category (
+  category_id SERIAL PRIMARY KEY,
+  name VARCHAR(100) NOT NULL
+);
+
+INSERT INTO
+  category (name)
+VALUES
+  ('Construction & Housing'),
+  ('Environmental'),
+  ('Community Service'),
+  ('Educational');
+
+SELECT
+  *
+FROM
+  category;
+
+CREATE TABLE project_category (
+  project_id INTEGER NOT NULL REFERENCES project (project_id),
+  category_id INTEGER NOT NULL REFERENCES category (category_id),
+  PRIMARY KEY (project_id, category_id)
+);
+
+INSERT INTO
+  project_category (project_id, category_id)
+VALUES
+  (1, 1),
+  (1, 3),
+  (2, 1),
+  (3, 1),
+  (3, 4),
+  (4, 1),
+  (4, 3),
+  (5, 1),
+  (5, 3),
+  (6, 2),
+  (7, 2),
+  (7, 4),
+  (8, 2),
+  (8, 3),
+  (9, 2),
+  (9, 4),
+  (10, 2),
+  (10, 4),
+  (11, 3),
+  (12, 3),
+  (12, 4),
+  (13, 3),
+  (14, 3),
+  (14, 4),
+  (15, 3);
+
+SELECT
+  *
+FROM
+  project_category;
