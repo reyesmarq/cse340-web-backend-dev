@@ -2,6 +2,7 @@ import express from 'express';
 import { fileURLToPath } from 'url';
 import path from 'path';
 import { testConnection } from './src/models/db.js';
+import { getAllOrganizations } from './src/models/organizations.js';
 
 const ENV = (process.env.NODE_ENV ?? 'production').toLocaleLowerCase();
 const PORT = process.env.PORT;
@@ -21,10 +22,11 @@ app.get('/', (_, res) => {
   });
 });
 
-app.get('/organizations', (_, res) => {
-  res.render('organizations', {
-    title: 'Our Partner Organizations',
-  });
+app.get('/organizations', async (_, res) => {
+  const organizations = await getAllOrganizations();
+  const title = 'Our Partner Organizations';
+
+  res.render('organizations', { title, organizations });
 });
 
 app.get('/projects', (_, res) => {
