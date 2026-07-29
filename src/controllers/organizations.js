@@ -1,3 +1,4 @@
+import { validationResult } from 'express-validator';
 import {
   getAllOrganizations,
   getOrganizationDetails,
@@ -36,6 +37,17 @@ const showNewOrganizationForm = (_, res) => {
 
 const processNewOrganizationForm = async (req, res, next) => {
   try {
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      const title = 'Create New Organization';
+      return res.render('new-organization', {
+        title,
+        errors: errors.array(),
+        formData: req.body,
+      });
+    }
+
     const { name, description, contactEmail } = req.body;
 
     const organizationId = await createOrganization(name, description, contactEmail);
