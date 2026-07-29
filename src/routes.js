@@ -5,6 +5,8 @@ import {
   showOrganizationDetailsPage,
   showNewOrganizationForm,
   processNewOrganizationForm,
+  showEditOrganizationForm,
+  processEditOrganizationForm,
 } from './controllers/organizations.js';
 import {
   showProjectsPage,
@@ -24,6 +26,8 @@ router.get('/organizations', showOrganizationsPage);
 router.get('/new-organization', showNewOrganizationForm);
 router.post('/new-organization', organizationValidation, processNewOrganizationForm);
 router.get('/organization/:id', showOrganizationDetailsPage);
+router.get('/edit-organization/:id', showEditOrganizationForm);
+router.post('/edit-organization/:id', organizationValidation, processEditOrganizationForm);
 router.get('/projects', showProjectsPage);
 router.get('/project/:id', showProjectDetailsPage);
 router.get('/categories', showCategoriesPage);

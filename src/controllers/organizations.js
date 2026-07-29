@@ -3,6 +3,7 @@ import {
   getAllOrganizations,
   getOrganizationDetails,
   createOrganization,
+  updateOrganization,
 } from '../models/organizations.js';
 import { getProjectsByOrganizationId } from '../models/projects.js';
 
@@ -59,9 +60,56 @@ const processNewOrganizationForm = async (req, res, next) => {
   }
 };
 
+const showEditOrganizationForm = async (req, res, next) => {
+  try {
+    const organizationId = req.params.id;
+    const organizationDetails = await getOrganizationDetails(organizationId);
+
+    if (!organizationDetails) {
+      const err = new Error('Organization Not Found');
+      err.status = 404;
+      return next(err);
+    }
+
+    const title = 'Edit Organization';
+    res.render('edit-organization', { title, organizationDetails });
+  } catch (error) {
+    next(error);
+  }
+};
+
+const processEditOrganizationForm = async (req, res, next) => {
+  try {
+    const errors = validationResult(req);
+    const organizationId = req.params.id;
+
+    if (!errors.isEmpty()) {
+      const organizationDetails = await getOrganizationDetails(organizationId);
+      const title = 'Edit Organization';
+      return res.render('edit-organization', {
+        title,
+        organizationDetails,
+        errors: errors.array(),
+        formData: req.body,
+      });
+    }
+
+    const { name, description, contactEmail, logoFilename } = req.body;
+
+    await updateOrganization(organizationId, name, description, contactEmail, logoFilename);
+
+    req.flash('success', 'Organization updated successfully!');
+    res.redirect(`/organization/${organizationId}`);
+  } catch (error) {
+    next(error);
+  }
+};
+
 export {
   showOrganizationsPage,
   showOrganizationDetailsPage,
   showNewOrganizationForm,
   processNewOrganizationForm,
+  showEditOrganizationForm,
+  processEditOrganizationForm,
 };

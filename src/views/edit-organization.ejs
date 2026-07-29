@@ -1,0 +1,51 @@
+<%- include('partials/header') %>
+<main>
+  <h1><%= title %></h1>
+  <% if (typeof errors !== 'undefined' && errors.length > 0) { %>
+    <div class="error-summary">
+      <h2>Please correct the following errors:</h2>
+      <ul>
+        <% errors.forEach(error => { %>
+          <li><%= error.msg %></li>
+        <% }); %>
+      </ul>
+    </div>
+  <% } %>
+  <form method="POST" action="/edit-organization/<%= organizationDetails.organization_id %>">
+    <div>
+      <label for="name">Organization Name:</label>
+      <input
+        type="text"
+        id="name"
+        name="name"
+        value="<%= typeof formData !== 'undefined' ? formData.name || organizationDetails.name : organizationDetails.name %>"
+        required
+      />
+    </div>
+    <div>
+      <label for="description">Description:</label>
+      <textarea id="description" name="description" required><%= typeof formData !== 'undefined' ? formData.description || organizationDetails.description : organizationDetails.description %></textarea>
+    </div>
+    <div>
+      <label for="contactEmail">Contact Email:</label>
+      <input
+        type="email"
+        id="contactEmail"
+        name="contactEmail"
+        value="<%= typeof formData !== 'undefined' ? formData.contactEmail || organizationDetails.contact_email : organizationDetails.contact_email %>"
+        required
+      />
+    </div>
+    <div>
+      <label for="logoFilename">Logo Filename:</label>
+      <input
+        type="text"
+        id="logoFilename"
+        name="logoFilename"
+        value="<%= typeof formData !== 'undefined' ? formData.logoFilename || organizationDetails.logo_filename : organizationDetails.logo_filename %>"
+      />
+    </div>
+    <button type="submit">Update Organization</button>
+  </form>
+</main>
+<%- include('partials/footer') %>
