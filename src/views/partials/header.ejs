@@ -20,3 +20,33 @@
         </ul>
       </nav>
     </header>
+
+    <% const messages = flash ? flash() : { success: [], error: [], warning: [], info: [] }; %>
+    <% if (messages.success && messages.success.length > 0) { %>
+      <div class="flash-messages flash-success">
+        <% messages.success.forEach(msg => { %>
+          <div class="flash-message"><%= msg %></div>
+        <% }); %>
+      </div>
+    <% } %>
+    <% if (messages.error && messages.error.length > 0) { %>
+      <div class="flash-messages flash-error">
+        <% messages.error.forEach(msg => { %>
+          <div class="flash-message"><%= msg %></div>
+        <% }); %>
+      </div>
+    <% } %>
+    <% if (messages.warning && messages.warning.length > 0) { %>
+      <div class="flash-messages flash-warning">
+        <% messages.warning.forEach(msg => { %>
+          <div class="flash-message"><%= msg %></div>
+        <% }); %>
+      </div>
+    <% } %>
+    <% if (messages.info && messages.info.length > 0) { %>
+      <div class="flash-messages flash-info">
+        <% messages.info.forEach(msg => { %>
+          <div class="flash-message"><%= msg %></div>
+        <% }); %>
+      </div>
+    <% } %>

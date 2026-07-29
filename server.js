@@ -1,11 +1,14 @@
 import express from 'express';
+import session from 'express-session';
 import { fileURLToPath } from 'url';
 import path from 'path';
 import { testConnection } from './src/models/db.js';
 import router from './src/routes.js';
+import { flashMiddleware } from './src/middleware/flash.js';
 
 const ENV = (process.env.NODE_ENV ?? 'production').toLocaleLowerCase();
 const PORT = process.env.PORT;
+const SESSION_SECRET = process.env.SESSION_SECRET;
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -14,6 +17,20 @@ const app = express();
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
+
+app.use(
+  session({
+    secret: SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      httpOnly: true,
+      maxAge: 1000 * 60 * 60,
+    },
+  })
+);
+
+app.use(flashMiddleware);
 
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'src/views'));
