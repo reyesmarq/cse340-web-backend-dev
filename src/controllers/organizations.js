@@ -1,6 +1,7 @@
 import {
   getAllOrganizations,
   getOrganizationDetails,
+  createOrganization,
 } from '../models/organizations.js';
 import { getProjectsByOrganizationId } from '../models/projects.js';
 
@@ -27,4 +28,27 @@ const showOrganizationDetailsPage = async (req, res, next) => {
   res.render('organization', { title, organizationDetails, projects });
 };
 
-export { showOrganizationsPage, showOrganizationDetailsPage };
+const showNewOrganizationForm = (_, res) => {
+  const title = 'Create New Organization';
+
+  res.render('new-organization', { title });
+};
+
+const processNewOrganizationForm = async (req, res, next) => {
+  try {
+    const { name, description, contactEmail } = req.body;
+
+    const organizationId = await createOrganization(name, description, contactEmail);
+
+    res.redirect(`/organization/${organizationId}`);
+  } catch (error) {
+    next(error);
+  }
+};
+
+export {
+  showOrganizationsPage,
+  showOrganizationDetailsPage,
+  showNewOrganizationForm,
+  processNewOrganizationForm,
+};
