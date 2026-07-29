@@ -1,0 +1,66 @@
+<%- include('partials/header') %>
+<main>
+  <h1><%= title %></h1>
+  <% if (typeof errors !== 'undefined' && errors.length > 0) { %>
+    <div class="error-summary">
+      <h2>Please correct the following errors:</h2>
+      <ul>
+        <% errors.forEach(error => { %>
+          <li><%= error.msg %></li>
+        <% }); %>
+      </ul>
+    </div>
+  <% } %>
+  <form method="POST" action="/edit-project/<%= project.project_id %>">
+    <div>
+      <label for="title">Project Title:</label>
+      <input
+        type="text"
+        id="title"
+        name="title"
+        value="<%= typeof formData !== 'undefined' ? formData.title || project.title : project.title %>"
+        required
+      />
+    </div>
+    <div>
+      <label for="description">Description:</label>
+      <textarea id="description" name="description" required><%= typeof formData !== 'undefined' ? formData.description || project.description : project.description %></textarea>
+    </div>
+    <div>
+      <label for="location">Location:</label>
+      <input
+        type="text"
+        id="location"
+        name="location"
+        value="<%= typeof formData !== 'undefined' ? formData.location || project.location : project.location %>"
+        required
+      />
+    </div>
+    <div>
+      <label for="projectDate">Project Date:</label>
+      <input
+        type="date"
+        id="projectDate"
+        name="projectDate"
+        value="<%= typeof formData !== 'undefined' ? formData.projectDate || new Date(project.project_date).toISOString().split('T')[0] : new Date(project.project_date).toISOString().split('T')[0] %>"
+        required
+      />
+    </div>
+    <div>
+      <label for="organizationId">Organization:</label>
+      <select id="organizationId" name="organizationId" required>
+        <option value="">-- Select an Organization --</option>
+        <% organizations.forEach(org => { %>
+          <option
+            value="<%= org.organization_id %>"
+            <%= (typeof formData !== 'undefined' ? formData.organizationId : project.organization_id) == org.organization_id ? 'selected' : '' %>
+          >
+            <%= org.name %>
+          </option>
+        <% }); %>
+      </select>
+    </div>
+    <button type="submit">Update Project</button>
+  </form>
+</main>
+<%- include('partials/footer') %>
