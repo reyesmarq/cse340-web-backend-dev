@@ -7,6 +7,11 @@ DROP TABLE IF EXISTS category;
 
 DROP TABLE IF EXISTS organization;
 
+-- CSE 340 Week 05: Authentication and Authorization
+DROP TABLE IF EXISTS users;
+
+DROP TABLE IF EXISTS roles;
+
 CREATE TABLE organization (
   organization_id SERIAL PRIMARY KEY,
   name VARCHAR(150) NOT NULL,
@@ -228,3 +233,41 @@ SELECT
   *
 FROM
   project_category;
+
+-- CSE 340 Week 05: Authentication and Authorization
+CREATE TABLE roles (
+  role_id SERIAL PRIMARY KEY,
+  role_name VARCHAR(50) UNIQUE NOT NULL,
+  role_description TEXT
+);
+
+INSERT INTO
+  roles (role_name, role_description)
+VALUES
+  (
+    'user',
+    'Standard user with access to their own account and public content'
+  ),
+  (
+    'admin',
+    'Administrator with full access to manage all content and users'
+  );
+
+SELECT
+  *
+FROM
+  roles;
+
+CREATE TABLE users (
+  user_id SERIAL PRIMARY KEY,
+  name VARCHAR(100) NOT NULL,
+  email VARCHAR(100) UNIQUE NOT NULL,
+  password_hash VARCHAR(255) NOT NULL,
+  role_id INTEGER REFERENCES roles (role_id),
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+SELECT
+  *
+FROM
+  users;
