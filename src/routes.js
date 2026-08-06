@@ -36,6 +36,7 @@ import {
   requireLogin,
   requireRole,
   showDashboard,
+  showUsersPage,
 } from './controllers/users.js';
 import { organizationValidation } from './validations/organizations.js';
 import { projectValidation } from './validations/projects.js';
@@ -91,6 +92,7 @@ router.get('/login', showLoginForm);
 router.post('/login', processLoginForm);
 router.get('/logout', processLogout);
 router.get('/dashboard', requireLogin, showDashboard);
+router.get('/users', requireRole('admin'), showUsersPage);
 router.get('/test-error', testErrorPage);
 
 export default router;

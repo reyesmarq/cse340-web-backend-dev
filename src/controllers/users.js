@@ -1,6 +1,6 @@
 import bcrypt from 'bcrypt';
 import { validationResult } from 'express-validator';
-import { createUser, authenticateUser } from '../models/users.js';
+import { createUser, authenticateUser, getAllUsers } from '../models/users.js';
 
 const SALT_ROUNDS = 10;
 
@@ -115,6 +115,12 @@ const showDashboard = (req, res) => {
   });
 };
 
+const showUsersPage = async (_, res) => {
+  const users = await getAllUsers();
+
+  res.render('users', { title: 'Registered Users', users });
+};
+
 export {
   showUserRegistrationForm,
   processUserRegistrationForm,
@@ -124,4 +130,5 @@ export {
   requireLogin,
   requireRole,
   showDashboard,
+  showUsersPage,
 };
