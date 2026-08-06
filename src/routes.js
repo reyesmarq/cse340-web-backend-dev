@@ -30,6 +30,9 @@ import { testErrorPage } from './controllers/errors.js';
 import {
   showUserRegistrationForm,
   processUserRegistrationForm,
+  showLoginForm,
+  processLoginForm,
+  processLogout,
 } from './controllers/users.js';
 import { organizationValidation } from './validations/organizations.js';
 import { projectValidation } from './validations/projects.js';
@@ -61,6 +64,9 @@ router.get('/assign-categories/:projectId', showAssignCategoriesForm);
 router.post('/assign-categories/:projectId', processAssignCategoriesForm);
 router.get('/register', showUserRegistrationForm);
 router.post('/register', userValidation, processUserRegistrationForm);
+router.get('/login', showLoginForm);
+router.post('/login', processLoginForm);
+router.get('/logout', processLogout);
 router.get('/test-error', testErrorPage);
 
 export default router;
