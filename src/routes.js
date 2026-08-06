@@ -33,6 +33,8 @@ import {
   showLoginForm,
   processLoginForm,
   processLogout,
+  requireLogin,
+  showDashboard,
 } from './controllers/users.js';
 import { organizationValidation } from './validations/organizations.js';
 import { projectValidation } from './validations/projects.js';
@@ -67,6 +69,7 @@ router.post('/register', userValidation, processUserRegistrationForm);
 router.get('/login', showLoginForm);
 router.post('/login', processLoginForm);
 router.get('/logout', processLogout);
+router.get('/dashboard', requireLogin, showDashboard);
 router.get('/test-error', testErrorPage);
 
 export default router;
