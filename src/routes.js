@@ -27,6 +27,7 @@ import {
   processAssignCategoriesForm,
 } from './controllers/categories.js';
 import { testErrorPage } from './controllers/errors.js';
+import { processVolunteerSignup, processVolunteerRemoval } from './controllers/volunteers.js';
 import {
   showUserRegistrationForm,
   processUserRegistrationForm,
@@ -92,6 +93,8 @@ router.get('/login', showLoginForm);
 router.post('/login', processLoginForm);
 router.get('/logout', processLogout);
 router.get('/dashboard', requireLogin, showDashboard);
+router.post('/volunteer/:projectId', requireLogin, processVolunteerSignup);
+router.post('/unvolunteer/:projectId', requireLogin, processVolunteerRemoval);
 router.get('/users', requireRole('admin'), showUsersPage);
 router.get('/test-error', testErrorPage);
 

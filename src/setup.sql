@@ -1,3 +1,6 @@
+-- CSE 340 Week 06: Volunteer Signups
+DROP TABLE IF EXISTS volunteer;
+
 -- CSE 340 Week 02: Database Tables and Sample Data
 DROP TABLE IF EXISTS project_category;
 
@@ -271,3 +274,16 @@ SELECT
   *
 FROM
   users;
+
+-- CSE 340 Week 06: Volunteer Signups
+CREATE TABLE volunteer (
+  user_id INTEGER NOT NULL REFERENCES users (user_id),
+  project_id INTEGER NOT NULL REFERENCES project (project_id),
+  signed_up_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (user_id, project_id)
+);
+
+SELECT
+  *
+FROM
+  volunteer;

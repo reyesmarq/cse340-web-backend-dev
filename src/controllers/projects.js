@@ -7,6 +7,7 @@ import {
 } from '../models/projects.js';
 import { getCategoriesByProjectId } from '../models/categories.js';
 import { getAllOrganizations } from '../models/organizations.js';
+import { isVolunteering } from '../models/volunteers.js';
 
 const NUMBER_OF_UPCOMING_PROJECTS = 5;
 
@@ -30,7 +31,11 @@ const showProjectDetailsPage = async (req, res, next) => {
   const categories = await getCategoriesByProjectId(projectId);
   const title = 'Project Details';
 
-  res.render('project', { title, project, categories });
+  const isVolunteer = req.session.user
+    ? await isVolunteering(req.session.user.user_id, projectId)
+    : false;
+
+  res.render('project', { title, project, categories, isVolunteer });
 };
 
 const showNewProjectForm = async (_, res) => {
